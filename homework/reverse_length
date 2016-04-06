@@ -1,0 +1,9 @@
+my_argument = "This is crazy"
+
+puts my_argument
+
+puts "please write backwards"
+
+puts my_argument.reverse
+
+puts my_argument.length
