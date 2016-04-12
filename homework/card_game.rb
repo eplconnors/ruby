@@ -7,5 +7,7 @@ until input == 'Done'
   input = gets.chomp.capitalize
   players<<input
 end
-
-p states
+players.pop
+players.each do |name|
+  puts "#{name}'s cards are #{deck_num.shuffle[0]} of #{deck_suits.shuffle[0]} and #{deck_num.shuffle[0]} of #{deck_suits.shuffle[0]}"
+end
