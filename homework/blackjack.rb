@@ -1,24 +1,26 @@
 class Deck
   def initialize
-    @deck =[]
+    $deck =[]
     @number = ['Ace', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,'Jack', 'Queen','King']
     @deck_suits = ['Hearts', 'Spades', 'Diamonds','Clubs']
 
     @number.each do |x|
       @deck_suits.each do |y|
-        @deck = [x, y]
-        @deck.shuffle(0)
+        $deck = {x => y}
+        $deck.shuffle!
       end
       end
   end
 
   def greeting
-    @bet = []
+    puts "What's your name?"
+    name = gets.chomp
+    @bet = 0
     puts "welcome to blackjack! How much would you like to bet?"
     answer = gets.chomp.to_i
-    @bet<<answer
-    player_deal
-
+    @bet += answer
+    @player = Player.new(name)
+  end
     def run
       greeting
       dealer_deal
@@ -26,51 +28,54 @@ class Deck
         puts "player wins!"
       elsif dealer_score == 21
         puts "dealer wins! you lose"
-
+      end
+    end
 end
 
 module Deal
   def dealing
     @card = []
-    @deck.shuffle[0]
-    @card << @deck.pop
-    @card
+    Deck.new
+   @card<< $deck.pop
     puts "you have been dealt the #{@card}"
-  end
-
-  def total
-    @score = 0
-    if @card.include? 'Jack' ||'Queen' ||'King'
-      @score<< 10
-    elsif @card.include ? 'Ace'
-      @score<< 11
-    elsif @card.keep_if {|number| >= 1}
-    end
   end
 end
 
 class Player
   include Deal
-  def initialize
-    attr_accessor :@name
+  attr_accessor :name
+  def initialize(name)
     @hand = []
     @name = name
     @score = []
+    player_deal
   end
-
+  def total
+    p @card
+    @score = []
+    if @card.include? 'King'
+      @score<< 10
+    elsif @card.include? 'Ace'
+      @score<< 11
+    else
+      @score<<@card.each {|x| x.each {|k,v| a}}
+  end
+end
   def player_deal
     2.times do
-      Deal
+      dealing
     end
-    @hand<<@card
-        if @score == 21
+    total
+    # @hand<<@card
+      p @score.flatten!
+        if @score.reduce(:+) == 21
       puts "you have reached 21! you win!"
-    elsif @score < 21
+    elsif @score.reduce(:+) <= 21
       puts "would you like to hit or stand?"
       answer = gets.chomp
-      if answer == hit
+      if answer == "hit"
         player_hit
-      elsif == stand
+      elsif answer == "stand"
         puts "Your score is #{@score}"
       else
         puts "please write hit or stand"
@@ -79,7 +84,7 @@ class Player
   end
 
   def player_hit
-    Deal
+    total
     if @score == 21
       puts "you have reached 21! you win!"
     elsif @score < 21
@@ -87,7 +92,7 @@ class Player
       answer = gets.chomp
       if answer == 'hit'
         player_hit
-      elsif == 'stand'
+      elsif answer == 'stand'
         puts "Your score is #{@score}"
       else
         puts "please write hit or stand"
@@ -104,12 +109,11 @@ class Dealer
   include Deal
   def initialize
   @hand = []
-  @name = dealer
   @score = []
   end
 
   def dealer_deal
-    Deal
+    total
     @hand<<@card
     if @score == 21
       puts "Dealer has reached 21- you lose!"
@@ -128,7 +132,5 @@ class Dealer
 end
 
 mydeck=Deck.new
-player=Player.new (Emily)
 dealer=Dealer.new
 mydeck.run
-end
