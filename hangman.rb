@@ -1,7 +1,11 @@
 class Hangman
   attr_accessor :name
 
+def initialize
+  @x = 0
+  @letters = []
 
+end
 
 def intro
   puts "welcome to hangman!  Player 1 enter your name"
@@ -21,29 +25,30 @@ def word
 end
 
 def guess
-  @x = 0
   @gallow = ["head", "body", "left arm", "right arm", "left leg", "right leg"]
-  @letters = Array.new
+  man = @gallow[@x]
   puts "#{@player2}, please guess a letter"
   letter= gets.chomp.downcase
-  @letters.push letter
-  
+  @letters << letter
+
   if @answer.include?(letter) == false
 
-   puts  "oh no :( you have added a " + @gallow[@x] + "to your hangman!"
+   puts  "oh no :( you have added a " + man + " to your hangman!"
 
     @x += 1
+    if man == "right leg"
+      puts "that was your last turn, you lose"
+    else
     guess
-
+  end
   else
-    puts "you guessed a letter correctly! here is your word so far:"
-    p @letters
-    #how do you get the letters in an array to stay there?
+    puts "you guessed a letter correctly! here is your word so far:" + @letters.join
+
     guess
   end
 end
 
-#when i can get the gallow array to work- put until == right leg, keep the loop going. else put "the game is over, you have lost"
+#put correct guess in a new method so that you can run a while loop
 
 end
 
